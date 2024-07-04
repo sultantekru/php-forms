@@ -117,7 +117,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 		}
 
 		#sale {
-			display: inline-block;
 			width: 85px;
 			height: 38px;
 		}
@@ -132,12 +131,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 		#img-line {
 			border: 1px dotted;
-		}
-
-		.btn-success {
-			display: flex;
-			justify-content: center;
-			margin-bottom: 10px;
 		}
 
 		.productImg {
@@ -158,11 +151,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			padding: 3px;
 			margin-bottom: 3px;
 		}
-
-		.btn-discount {
-			display: flex;
-			justify-content: flex-end;
-		}
 	</style>
 </head>
 
@@ -171,9 +159,20 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	<div class="container">
 		<div class="navbar">
 			<p>Ürün</p>
-			<div class="btn-container">
-				<button type="button" class="btn btn-outline-success">Kaydet</button>
-				<button type="button" class="btn btn-outline-danger"><span id="cancel">X</span> İptal</button>
+			<div class="btn-container d-flex justify-content-end flex-column">
+				<div>
+					<button type="button" class="btn btn-outline-success">
+						Kaydet
+					</button>
+					<button onclick="window.location='/proje/index.php'" type="button" class="btn btn-outline-danger ml-2">
+						<span id="cancel">X</span> İptal
+					</button>
+				</div>
+				<div class="mt-2">
+					<button type="button" class="btn btn-outline-warning">
+						Sil
+					</button>
+				</div>
 			</div>
 		</div>
 		<ul class="nav nav-tabs" id="mainTab" role="tablist">
@@ -324,11 +323,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="sale" class="col-sm-2 col-form-label"><span>*</span> Satış Fiyatı <p id="description">Ürünün Satış Fiyatı.</p></label>
 					<div class="col-sm-10">
 						<div class="sale-container">
-							<input type="text" class="form-control" id="sale"> TL
+							<input type="text" class="d-inline-block form-control" id="sale"> TL
 							<hr>
-							<input type="text" class="form-control" id="sale"> $
+							<input type="text" class="d-inline-block form-control" id="sale"> $
 							<hr>
-							<input type="text" class="form-control" id="sale"> €
+							<input type="text" class="d-inline-block form-control" id="sale"> €
 						</div>
 					</div>
 				</div>
@@ -337,7 +336,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="sale" class="col-sm-2 col-form-label"><span>*</span> 2.Satış Fiyatı</label>
 					<div class="col-sm-10">
 						<div class="sale-container">
-							<input type="text" class="form-control" id="sale"> TL
+							<input type="text" class="d-inline-block form-control" id="sale"> TL
 						</div>
 					</div>
 				</div>
@@ -457,7 +456,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</div>
 				<div class="form-group row imgProductTitle">
 					<label for="image" class="col-sm-2 col-form-label">Resimler</label>
-					<hr id="imgTitle">
+					<hr class="border border-solid">
 					<div class="col-sm-4">
 						<div class="btn-success">
 							<button type="button" class="btn btn-outline-success">Resim Ekle</button>
