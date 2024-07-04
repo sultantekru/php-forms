@@ -14,10 +14,10 @@
 </head>
 
 <body>
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-center mb-4">
+    <div class="container pt-5">
+        <div class="d-flex justify-content-between align-items-center mb-5">
             <h1 class="mb-0">Veri Listeleme Ekranı</h1>
-            <button type="button" class="btn btn-outline-dark">Ekle</button>
+            <button onclick="window.location='/proje/index.php/products'" type="button" class="btn btn-outline-dark">Ürün Ekle</button>
         </div>
         
         <table class="table table-hover" id="data-table">
@@ -33,7 +33,7 @@
             <tbody>
                 <?php foreach ($products as $product) : ?>
 
-                    <tr onclick="window.location='<?php echo "products/" . $product->id; ?>'">
+                    <tr onclick="window.location='<?php echo "/proje/index.php/products/" . $product->id; ?>'">
                         <td><?php echo $product->product_title; ?></td>
                         <td><?php echo $product->product_description; ?></td>
                         <td><?php echo $product->quantity; ?></td>

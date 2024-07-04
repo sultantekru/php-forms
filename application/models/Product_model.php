@@ -54,4 +54,16 @@ class Product_model extends CI_Model
         $query = $this->db->get('products');
         return $query->result();
     }
+
+    public function get_product_by_id($id)
+    {
+        $this->db->where('id', $id); // Ensure case-insensitivity for 'id' field
+        $query = $this->db->get('products');
+            
+        if ($query->num_rows() === 1) {
+            return $query->row(); // Return single product object
+        } else {
+            return null; // Return null if product not found
+        }
+    }
 }

@@ -6,7 +6,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 
 <head>
 	<meta charset="utf-8">
-	<title>Welcome to CodeIgniter</title>
+	<title>PHP Form Uygulaması</title>
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
 	<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
@@ -161,16 +161,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<p>Ürün</p>
 			<div class="btn-container d-flex justify-content-end flex-column">
 				<div>
+					<?php
+					echo isset($product) ?
+						'<button type="button" class="btn btn-outline-warning">Sil</button>' :
+						'';
+					?>
+
 					<button type="button" class="btn btn-outline-success">
-						Kaydet
+					<?php
+					echo isset($product) ?
+						'Kaydet' :
+						'Ekle';
+					?>
 					</button>
 					<button onclick="window.location='/proje/index.php'" type="button" class="btn btn-outline-danger ml-2">
-						<span id="cancel">X</span> İptal
-					</button>
-				</div>
-				<div class="mt-2">
-					<button type="button" class="btn btn-outline-warning">
-						Sil
+						 İptal
 					</button>
 				</div>
 			</div>
@@ -202,14 +207,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<div class="form-group row">
 							<label for="inputProductTitle" class="col-sm-2 col-form-label"><span>*</span> Türkçe Ürün Başlık</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputProductTitle">
+								<input value="<?php echo isset($product) ? $product->product_title : ''; ?>" type="text" class="form-control" id="inputProductTitle">
 							</div>
 						</div>
 						<hr>
 						<div class="form-group row">
 							<label for="inputAdditionalInfo" class="col-sm-2 col-form-label">Türkçe Ek Bilgi Başlığı</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputAdditionalInfo">
+								<input value="<?php echo isset($product) ? $product->additional_info_title : ''; ?>" type="text" class="form-control" id="inputAdditionalInfo">
 							</div>
 						</div>
 						<hr>
