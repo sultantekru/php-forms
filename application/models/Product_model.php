@@ -49,6 +49,13 @@ class Product_model extends CI_Model
     }
 
 
+    public function update_table_data($id, $data)
+    {
+        $this->db->where('id', $id);
+        return $this->db->update('products', $data);
+    }
+
+
     public function get_all_products()
     {
         $query = $this->db->get('products');

@@ -10,7 +10,58 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
 
 	<script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
+	<script>
+		function triggerFileInput() {
+			const fileInput = document.getElementById('file-input');
+			fileInput.click();
+		}
 
+		function selectFile() {
+			const fileInput = document.getElementById('file-input');
+			const imagePreview = document.getElementById('image-preview');
+
+			if (fileInput.files.length > 0) {
+				let file = fileInput.files[0];
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					imagePreview.src = e.target.result;
+				};
+				reader.readAsDataURL(file);
+			} else {
+				imagePreview.src = 'https://th.bing.com/th/id/R.52b37a48fe1da713f095575a61df1c54?rik=afUDSZgaB%2f4qOw&pid=ImgRaw&r=0';
+			}
+		}
+
+		function clearFile() {
+			const imagePreview = document.getElementById('image-preview');
+
+			imagePreview.src = 'https://th.bing.com/th/id/R.52b37a48fe1da713f095575a61df1c54?rik=afUDSZgaB%2f4qOw&pid=ImgRaw&r=0';
+		}
+
+		function submitForm() {
+			var formData = new FormData();
+			<?php echo isset($product) ? "formData.append('id', " . $product->id . ");" : '' ?>
+			formData.append('product_title', document.getElementById('inputProductTitle').value);
+			formData.append('file', document.getElementById('file-input').files[0]);
+
+			var xhr = new XMLHttpRequest();
+			var url = '<?php echo base_url('index.php/submit-products'); ?>';
+			xhr.open('POST', url, true);
+
+			xhr.onreadystatechange = function() {
+				if (xhr.readyState == 4 && xhr.status == 200) {
+					if (xhr.status == 200) {
+						alert('Ürün Başarılı bi şekilde eklendi.')
+						window.location = '/proje/index.php';
+					} else {
+						alert('Ürün eklenirken bi hata oluştu.')
+					}
+				}
+			};
+			xhr.send(formData);
+
+		}
+	</script>
 	<script>
 		tinymce.init({
 			selector: 'textarea#inputProductDescription',
@@ -184,7 +235,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						'';
 					?>
 
-					<button type="button" class="btn btn-outline-success">
+					<button onclick="submitForm()" type="button" class="btn btn-outline-success">
 						<?php
 						echo isset($product) ?
 							'Kaydet' :
@@ -300,13 +351,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<div class="col-sm-4 section-container">
 						<input value="<?php echo isset($product) ? $product->quantity : ''; ?>" type="text" class="form-control" id="amount">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-								Adet
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-								<li><a class="dropdown-item" href="#">Adet</a></li>
-								<li><a class="dropdown-item" href="#">Kg</a></li>
-							</ul>
+							<select class="combobox py-2 px-3 w-100" id="amount">
+								<option>Kg</option>
+								<option>Gram</option>
+								<option>Adet</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -315,13 +364,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="basket" class="col-sm-2 col-form-label"><span>*</span> Sepette Ekstra İndirim % <p id="description">Ürün sepet ekstra indirimde seçeneklere fiyat girilmiş ise indirim seçenek fiyatlarına da uygulanmaktadır.</p></label>
 					<div class="col-sm-4 section-container">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="basket" data-bs-toggle="dropdown" aria-expanded="false">
-								0
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="basket">
-								<li><a class="dropdown-item" href="#">5</a></li>
-								<li><a class="dropdown-item" href="#">10</a></li>
-							</ul>
+							<select class="combobox py-2 px-3 w-100" id="extra_discount_in_cart">
+								<option>0</option>
+								<option>10</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -330,13 +376,11 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="taxRateSelect" class="col-sm-2 col-form-label"><span>*</span> Vergi Oranı % <p id="description">Ürünün vergi oranı.</p></label>
 					<div class="col-sm-4">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="taxRateSelect" data-bs-toggle="dropdown" aria-expanded="false">
-								18
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="taxRateSelect">
-								<li><a class="dropdown-item" href="#">8</a></li>
-								<li><a class="dropdown-item" href="#">18</a></li>
-							</ul>
+							<select class="combobox py-2 px-3 w-100" id="taxRateSelect">
+								<option value="volvo">5</option>
+								<option value="saab">18</option>
+								<option value="saab">20</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -363,13 +407,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="stock" class="col-sm-2 col-form-label"><span>*</span> Stoktan Düş <p id="description">Ürün satıldıktan sonra ürün miktarı düşülür.</p></label>
 					<div class="col-sm-4">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="stock" data-bs-toggle="dropdown" aria-expanded="false">
-								-Evet-
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="stock">
-								<li><a class="dropdown-item" href="#">Evet</a></li>
-								<li><a class="dropdown-item" href="#">Hayır</a></li>
-							</ul>
+							<select class="combobox py-2 px-3 w-100" id="stock">
+								<option>Evet</option>
+								<option>Hayır</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -378,13 +419,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="state" class="col-sm-2 col-form-label"><span>*</span> Durum<p id="description">Ürünleri aktif ya da pasif edin.</p></label>
 					<div class="col-sm-4">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="state" data-bs-toggle="dropdown" aria-expanded="false">
-								-Hayır-
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="state">
-								<li><a class="dropdown-item" href="#">Evet</a></li>
-								<li><a class="dropdown-item" href="#">Hayır</a></li>
-							</ul>
+							<select class="combobox py-2 px-3 w-100" id="state">
+								<option>Evet</option>
+								<option>Hayır</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -393,13 +431,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="property" class="col-sm-2 col-form-label"><span>*</span> Özellik Bölümü<p id="description">Ürünlerin özellik tabını gösterin ya da göstermeyin.</p></label>
 					<div class="col-sm-4">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="property" data-bs-toggle="dropdown" aria-expanded="false">
-								-Göster-
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="property">
-								<li><a class="dropdown-item" href="#">Göster</a></li>
-								<li><a class="dropdown-item" href="#">Gösterme</a></li>
-							</ul>
+							<select class="combobox py-2 px-3 w-100" id="property">
+								<option>Göster</option>
+								<option>Gösterme</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -429,13 +464,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="newProduct" class="col-sm-2 col-form-label"><span>*</span> Yeni Ürün</label>
 					<div class="col-sm-4">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="newProduct" data-bs-toggle="dropdown" aria-expanded="false">
-								-Evet-
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="newProduct">
-								<li><a class="dropdown-item" href="#">Evet</a></li>
-								<li><a class="dropdown-item" href="#">Hayır</a></li>
-							</ul>
+							<select class="combobox py-2 px-3 w-100" id="newProduct">
+								<option>Evet</option>
+								<option>Hayır</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -444,13 +476,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="installment" class="col-sm-2 col-form-label"><span>*</span> Taksit</label>
 					<div class="col-sm-4">
 						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="installment" data-bs-toggle="dropdown" aria-expanded="false">
-								-Evet-
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="installment">
-								<li><a class="dropdown-item" href="#">Evet</a></li>
-								<li><a class="dropdown-item" href="#">Hayır</a></li>
-							</ul>
+							<select class="combobox py-2 px-3 w-100" id="installment">
+								<option>Evet</option>
+								<option>Hayır</option>
+							</select>
 						</div>
 					</div>
 				</div>
@@ -488,10 +517,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			<div class="form-group row align-items-center">
 				<div class="col-sm-2">
 					<select class="combobox py-2 px-3 w-100" id="customer-group">
-						<option value="volvo">Volvo</option>
-						<option value="saab">Saab</option>
-						<option value="vw">VW</option>
-						<option value="audi" selected>Audi</option>
+						<option>Müşteri</option>
 					</select>
 				</div>
 				<div class="col-sm-2">
@@ -503,12 +529,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<span class="input-group-text">TL</span>
 					</div>
 					<div class="dropdown">
-						<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-							Fiyat
-						</button>
-						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-							<li><a class="dropdown-item" href="#">#</a></li>
-						</ul>
+						<select class="combobox py-2 px-3 w-100" id="price">
+							<option>Fiyat</option>
+						</select>
 					</div>
 				</div>
 				<div class="col-sm-2">
@@ -522,34 +545,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 	</div>
 
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-	<script>
-		function triggerFileInput() {
-			const fileInput = document.getElementById('file-input');
-			fileInput.click();
-		}
 
-		function selectFile() {
-			const fileInput = document.getElementById('file-input');
-			const imagePreview = document.getElementById('image-preview');
-
-			if (fileInput.files.length > 0) {
-				let file = fileInput.files[0];
-				const reader = new FileReader();
-				reader.onload = function(e) {
-					imagePreview.src = e.target.result;
-				};
-				reader.readAsDataURL(file);
-			} else {
-				imagePreview.src = 'https://th.bing.com/th/id/R.52b37a48fe1da713f095575a61df1c54?rik=afUDSZgaB%2f4qOw&pid=ImgRaw&r=0';
-			}
-		}
-
-		function clearFile() {
-			const imagePreview = document.getElementById('image-preview');
-			
-			imagePreview.src = 'https://th.bing.com/th/id/R.52b37a48fe1da713f095575a61df1c54?rik=afUDSZgaB%2f4qOw&pid=ImgRaw&r=0';
-		}
-	</script>
 </body>
 
 </html>

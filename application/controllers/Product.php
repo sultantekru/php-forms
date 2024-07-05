@@ -5,6 +5,8 @@ class Product extends CI_Controller
 {
     public function __construct()
     {
+        header('Access-Control-Allow-Origin: *');
+        header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
         parent::__construct();
         $this->load->model('Product_model'); // Büyük/küçük harf duyarlılığına dikkat edin
         $this->load->helper('url');
@@ -52,5 +54,21 @@ class Product extends CI_Controller
     {
         $this->Product_model->delete($id);
         redirect('/');
+    }
+
+    public function submit_product()
+    {
+        $id = $this->input->post('id');
+
+        $data = array(
+            "product_title" => $this->input->post('product_title'),
+        );
+
+        if ($id) {
+            $result = $this->Product_model->update_table_data($id, $data);
+        } else {
+            $result = $this->Product_model->insert_table_data($data);
+        }
+
     }
 }
