@@ -7,6 +7,7 @@ class Product extends CI_Controller
     {
         parent::__construct();
         $this->load->model('Product_model'); // Büyük/küçük harf duyarlılığına dikkat edin
+        $this->load->helper('url');
     }
 
     public function index()
@@ -40,9 +41,16 @@ class Product extends CI_Controller
         $data['product'] = $this->Product_model->get_product_by_id($id);
 
         if (!$data['product']) {
-            show_404(); 
+            show_404();
         }
-    
+
         $this->load->view('add_or_update_product_view', $data);
+    }
+
+
+    public function delete_product($id)
+    {
+        $this->Product_model->delete($id);
+        redirect('/');
     }
 }

@@ -70,6 +70,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			margin-left: 10px;
 		}
 
+		#delete {
+			width: 58px;
+		}
+
+		#delete:hover {
+			color: #fff
+		}
+
 		#cancel {
 			color: #dc3545;
 		}
@@ -151,6 +159,15 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			padding: 3px;
 			margin-bottom: 3px;
 		}
+
+		.combobox {
+			border: 1px solid #CCCCCC;
+			border-radius: 0.375rem;
+		}
+
+		#file-input {
+			display: none;
+		}
 	</style>
 </head>
 
@@ -163,19 +180,19 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<div>
 					<?php
 					echo isset($product) ?
-						'<button type="button" class="btn btn-outline-warning">Sil</button>' :
+						"<button onclick=\"window.location='/proje/index.php/delete-products/" .   $product->id  . "'\" id=\"delete\" type=\"button\" class=\"btn btn-outline-warning\">Sil</button>" :
 						'';
 					?>
 
 					<button type="button" class="btn btn-outline-success">
-					<?php
-					echo isset($product) ?
-						'Kaydet' :
-						'Ekle';
-					?>
+						<?php
+						echo isset($product) ?
+							'Kaydet' :
+							'Ekle';
+						?>
 					</button>
 					<button onclick="window.location='/proje/index.php'" type="button" class="btn btn-outline-danger ml-2">
-						 İptal
+						İptal
 					</button>
 				</div>
 			</div>
@@ -221,49 +238,49 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<div class="form-group row">
 							<label for="inputAdditionalDescription" class="col-sm-2 col-form-label">Türkçe Ek Bilgi Açıklaması</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputAdditionalDescription">
+								<input value="<?php echo isset($product) ? $product->additional_info_description : ''; ?>" type="text" class="form-control" id="inputAdditionalDescription">
 							</div>
 						</div>
 						<hr>
 						<div class="form-group row">
 							<label for="inputMetaTitle" class="col-sm-2 col-form-label">Türkçe Meta Title</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputMetaTitle">
+								<input value="<?php echo isset($product) ? $product->meta_title : ''; ?>" type="text" class="form-control" id="inputMetaTitle">
 							</div>
 						</div>
 						<hr>
 						<div class="form-group row">
 							<label for="inputMetaKeywords" class="col-sm-2 col-form-label">Türkçe Meta Keywords</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputMetaKeywords">
+								<input value="<?php echo isset($product) ? $product->meta_keywords : ''; ?>" type="text" class="form-control" id="inputMetaKeywords">
 							</div>
 						</div>
 						<hr>
 						<div class="form-group row">
 							<label for="inputMetaDescription" class="col-sm-2 col-form-label">Türkçe Meta Description</label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputMetaDescription">
+								<input value="<?php echo isset($product) ? $product->meta_description : ''; ?>" type="text" class="form-control" id="inputMetaDescription">
 							</div>
 						</div>
 						<hr>
 						<div class="form-group row">
 							<label for="inputSeo" class="col-sm-2 col-form-label">Türkçe Seo Adresi <p id="description">Seo adresi girilmesi zorunlu değildir, girilen seo adresi gereçli olur, Girilmez ise otomatik olarak Başlık kısmını referans olarak oluşturulur.</p></label>
 							<div class="col-sm-4">
-								<input type="text" class="form-control" id="inputSeo">
+								<input value="<?php echo isset($product) ? $product->seo_url : ''; ?>" type="text" class="form-control" id="inputSeo">
 							</div>
 						</div>
 						<hr>
 						<div class="form-group row">
 							<label for="inputProductDescription" class="col-sm-2 col-form-label">Türkçe Ürün Açıklama</label>
 							<div class="col-sm-10">
-								<textarea id="inputProductDescription"></textarea>
+								<textarea value="<?php echo isset($product) ? $product->product_description : ''; ?>" id="inputProductDescription"></textarea>
 							</div>
 						</div>
 						<hr>
 						<div class="form-group row">
 							<label for="inputVideoEmbed" class="col-sm-2 col-form-label">Türkçe Video Embed Kodu <p id="description">Vimeo - Google Video - Youtbe tarzı video sitelerinin embed kodu.</p></label>
 							<div class="col-sm-10">
-								<textarea id="inputVideoEmbed"></textarea>
+								<textarea value="<?php echo isset($product) ? $product->video_embed_code : ''; ?>" id="inputVideoEmbed"></textarea>
 							</div>
 						</div>
 					</div>
@@ -274,14 +291,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<div class="form-group row">
 					<label for="inputProuductCode" class="col-sm-2 col-form-label"><span>*</span> Ürün Kodu <p id="description">Ürün Kodu.</p></label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="inputProuductCode">
+						<input value="<?php echo isset($product) ? $product->product_code : ''; ?>" type="text" class="form-control" id="inputProuductCode">
 					</div>
 				</div>
 				<hr>
 				<div class="form-group row">
 					<label for="amount" class="col-sm-2 col-form-label"><span>*</span> Miktar <p id="description">Üründen kaç adet olacağını belirler. Bu miktar 0 olarak girilirse ürün sitede "stokta yok" ibareleriyle listelenecektir. Eğer üründe seçenek varsa seçeneklerin stoğu ürün stoğundan büyük olamaz.</p></label>
 					<div class="col-sm-4 section-container">
-						<input type="text" class="form-control" id="amount">
+						<input value="<?php echo isset($product) ? $product->quantity : ''; ?>" type="text" class="form-control" id="amount">
 						<div class="dropdown">
 							<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
 								Adet
@@ -328,11 +345,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="sale" class="col-sm-2 col-form-label"><span>*</span> Satış Fiyatı <p id="description">Ürünün Satış Fiyatı.</p></label>
 					<div class="col-sm-10">
 						<div class="sale-container">
-							<input type="text" class="d-inline-block form-control" id="sale"> TL
-							<hr>
-							<input type="text" class="d-inline-block form-control" id="sale"> $
-							<hr>
-							<input type="text" class="d-inline-block form-control" id="sale"> €
+							<input value="<?php echo isset($product) ? $product->sales_price : ''; ?>" type="text" class="d-inline-block form-control" id="sale"> TL
 						</div>
 					</div>
 				</div>
@@ -341,7 +354,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="sale" class="col-sm-2 col-form-label"><span>*</span> 2.Satış Fiyatı</label>
 					<div class="col-sm-10">
 						<div class="sale-container">
-							<input type="text" class="d-inline-block form-control" id="sale"> TL
+							<input value="<?php echo isset($product) ? $product->second_sales_price : ''; ?>" type="text" class="d-inline-block form-control" id="sale"> TL
 						</div>
 					</div>
 				</div>
@@ -394,21 +407,21 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<div class="form-group row">
 					<label for="productTime" class="col-sm-2 col-form-label"><span>*</span> Yeni Ürün Geçerlilik Süresi</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="productTime">
+						<input value="<?php echo isset($product) ? $product->new_product_validity_period : ''; ?>" type="text" class="form-control" id="productTime">
 					</div>
 				</div>
 				<hr>
 				<div class="form-group row">
 					<label for="sorting" class="col-sm-2 col-form-label"><span>*</span> Sıralama</label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="sorting">
+						<input value="<?php echo isset($product) ? $product->sort_order : ''; ?>" type="text" class="form-control" id="sorting">
 					</div>
 				</div>
 				<hr>
 				<div class="form-group row">
 					<label for="show" class="col-sm-2 col-form-label"><span>*</span> Anasayfada Göster <p id="description">AnaSayfa sırasını ayarlamak için sayı giriniz! 0'dan büyük sayı girerseniz anasayfada gösterir ve o sırayı alır. 0 girerseniz anasayfada gözükmez.</p></label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="show">
+						<input value="<?php echo isset($product) ? $product->show_on_homepage : ''; ?>" type="text" class="form-control" id="show">
 					</div>
 				</div>
 				<hr>
@@ -445,7 +458,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<div class="form-group row">
 					<label for="show" class="col-sm-2 col-form-label"><span>*</span> Garanti Süresi<p id="description">Ürün için verilen ay cinsinden garanti süresi.</p></label>
 					<div class="col-sm-4">
-						<input type="text" class="form-control" id="show">
+						<input value="<?php echo isset($product) ? $product->warranty_period : ''; ?>" type="text" class="form-control" id="show">
 					</div>
 				</div>
 			</div>
@@ -453,104 +466,90 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<div class="form-group row">
 					<label for="productImg" class="col-sm-2 col-form-label">Ürün Ana Resmi <p id="description">Ürüne ana resim eklemek için tıklayın. Ürün resim eklerken kare resim girmelisiniz, önerilen boyut 800px genişlik, 800px yükseklik. Ürün resim eklerken maksimum resim boyutu 1MB ve genişlik 768px, yükseklik 1024px olmalıdır.</p></label>
 					<div class="col-sm-4">
-						<img src="https://th.bing.com/th/id/R.52b37a48fe1da713f095575a61df1c54?rik=afUDSZgaB%2f4qOw&pid=ImgRaw&r=0" class="productImg">
+						<img id="image-preview" src="https://th.bing.com/th/id/R.52b37a48fe1da713f095575a61df1c54?rik=afUDSZgaB%2f4qOw&pid=ImgRaw&r=0" class="productImg">
 					</div>
 					<div class="btn-danger">
-						<button type="button" class="btn btn-outline-danger">Temizle</button>
-					</div>
-				</div>
-				<div class="form-group row imgProductTitle">
-					<label for="image" class="col-sm-2 col-form-label">Resimler</label>
-					<hr class="border border-solid">
-					<div class="col-sm-4">
-						<div class="btn-success">
-							<button type="button" class="btn btn-outline-success">Resim Ekle</button>
-						</div>
-					</div>
-					<hr id="img-line">
-				</div>
-			</div>
-			<div class="tab-pane fade" id="discount" role="tabpanel" aria-labelledby="discount-tab">
-				<div class="form-group">
-					<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Müşteri Grubu</label>
-					<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Öncelik</label>
-					<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Yüzde İndirim Oranı veya İndirimli Fiyatı</label>
-					<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Başlangıç Tarihi</label>
-					<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Bitiş Tarihi</label>
-					<hr>
-				</div>
-				<div class="form-group row align-items-center">
-					<div class="col-sm-2">
-						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-								Müşteri
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-								<li><a class="dropdown-item" href="#">Seçenek 1</a></li>
-								<li><a class="dropdown-item" href="#">Seçenek 2</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-2">
-						<input type="text" class="form-control" id="priority">
-					</div>
-					<div class="col-sm-2">
-						<div class="input-group">
-							<input type="text" class="form-control" id="priceTl" placeholder="0.00">
-							<span class="input-group-text">TL</span>
-						</div>
-						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-								Fiyat
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-								<li><a class="dropdown-item" href="#">#</a></li>
-							</ul>
-						</div>
-						<div class="input-group">
-							<input type="text" class="form-control" id="priceDollar" placeholder="0.00">
-							<span class="input-group-text">$</span>
-						</div>
-						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-								Fiyat
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-								<li><a class="dropdown-item" href="#">#</a></li>
-							</ul>
-						</div>
-						<div class="input-group">
-							<input type="text" class="form-control" id="priceEuro" placeholder="0.00">
-							<span class="input-group-text">€</span>
-						</div>
-						<div class="dropdown">
-							<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
-								Fiyat
-							</button>
-							<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
-								<li><a class="dropdown-item" href="#">#</a></li>
-							</ul>
-						</div>
-					</div>
-					<div class="col-sm-2">
-						<input type="text" class="form-control" id="startDate">
-					</div>
-					<div class="col-sm-2">
-						<input type="text" class="form-control" id="endDate">
-					</div>
-					<div class="col-sm-2">
-						<button type="button" class="btn btn-outline-danger">Kaldır</button>
-					</div>
-					<hr>
-					<div class="btn-discount">
-						<button type="button" class="btn btn-outline-success">İndirim Ekle</button>
+						<input accept="image/*" type="file" id="file-input" onchange="selectFile()">
+						<button onclick="triggerFileInput()" type="button" class="btn btn-outline-success">Resim Ekle</button>
+						<button onclick="clearFile()" type="button" class="btn btn-outline-danger">Temizle</button>
 					</div>
 				</div>
 			</div>
 		</div>
+		<div class="tab-pane fade" id="discount" role="tabpanel" aria-labelledby="discount-tab">
+			<div class="form-group">
+				<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Müşteri Grubu</label>
+				<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Öncelik</label>
+				<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Yüzde İndirim Oranı veya İndirimli Fiyatı</label>
+				<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Başlangıç Tarihi</label>
+				<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Bitiş Tarihi</label>
+				<hr>
+			</div>
+			<div class="form-group row align-items-center">
+				<div class="col-sm-2">
+					<select class="combobox py-2 px-3 w-100" id="customer-group">
+						<option value="volvo">Volvo</option>
+						<option value="saab">Saab</option>
+						<option value="vw">VW</option>
+						<option value="audi" selected>Audi</option>
+					</select>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" class="form-control" id="priority">
+				</div>
+				<div class="col-sm-2">
+					<div class="input-group">
+						<input type="text" class="form-control" id="priceTl" placeholder="0.00">
+						<span class="input-group-text">TL</span>
+					</div>
+					<div class="dropdown">
+						<button class="btn dropdown-toggle" type="button" id="dropdownMenuButton2" data-bs-toggle="dropdown" aria-expanded="false">
+							Fiyat
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton2">
+							<li><a class="dropdown-item" href="#">#</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-sm-2">
+					<input type="text" class="form-control" id="startDate">
+				</div>
+				<div class="col-sm-2">
+					<input type="text" class="form-control" id="endDate">
+				</div>
+			</div>
+		</div>
 	</div>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
 
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+	<script>
+		function triggerFileInput() {
+			const fileInput = document.getElementById('file-input');
+			fileInput.click();
+		}
+
+		function selectFile() {
+			const fileInput = document.getElementById('file-input');
+			const imagePreview = document.getElementById('image-preview');
+
+			if (fileInput.files.length > 0) {
+				let file = fileInput.files[0];
+				const reader = new FileReader();
+				reader.onload = function(e) {
+					imagePreview.src = e.target.result;
+				};
+				reader.readAsDataURL(file);
+			} else {
+				imagePreview.src = 'https://th.bing.com/th/id/R.52b37a48fe1da713f095575a61df1c54?rik=afUDSZgaB%2f4qOw&pid=ImgRaw&r=0';
+			}
+		}
+
+		function clearFile() {
+			const imagePreview = document.getElementById('image-preview');
+			
+			imagePreview.src = 'https://th.bing.com/th/id/R.52b37a48fe1da713f095575a61df1c54?rik=afUDSZgaB%2f4qOw&pid=ImgRaw&r=0';
+		}
+	</script>
 </body>
 
 </html>

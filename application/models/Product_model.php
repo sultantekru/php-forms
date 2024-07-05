@@ -24,7 +24,7 @@ class Product_model extends CI_Model
     public $show_on_homepage;
     public $new_product;
     public $installments;
-    public $warranty_perio;
+    public $warranty_period;
     public $currency;
 
     public function run()
@@ -59,11 +59,17 @@ class Product_model extends CI_Model
     {
         $this->db->where('id', $id); // Ensure case-insensitivity for 'id' field
         $query = $this->db->get('products');
-            
+
         if ($query->num_rows() === 1) {
             return $query->row(); // Return single product object
         } else {
             return null; // Return null if product not found
         }
+    }
+
+    public function delete($id)
+    {
+        $this->db->where('id', $id);
+        $this->db->delete('products');
     }
 }

@@ -56,3 +56,4 @@ $route['translate_uri_dashes'] = FALSE;
 
 $route['products'] = 'product/add_product';
 $route['products/(:num)'] = 'product/update_product/$1';
+$route['delete-products/(:num)'] = 'product/delete_product/$1';
