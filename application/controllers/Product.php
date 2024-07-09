@@ -8,29 +8,16 @@ class Product extends CI_Controller
         header('Access-Control-Allow-Origin: *');
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
         parent::__construct();
-        $this->load->model('Product_model'); // Büyük/küçük harf duyarlılığına dikkat edin
-        $this->load->helper('url');
+        $this->load->model('Product_model');
+        $this->load->helper(array('form', 'url'));
+        $this->load->library('cors');
+        $this->cors->handle();
     }
 
     public function index()
     {
         $data['products'] = $this->Product_model->get_all_products();
         $this->load->view('product_list_view', $data);
-    }
-
-    //TODO: Silinecek
-    public function insert_data_into_table()
-    {
-        $data = array(
-            "product_title" => "fikret",
-        );
-        $result = $this->Product_model->insert_table_data($data);
-
-        if ($result) {
-            echo "Data inserted successfully.";
-        } else {
-            echo "Failed to insert data.";
-        }
     }
 
     public function add_product()
@@ -86,6 +73,22 @@ class Product extends CI_Controller
             "installments" => $this->input->post('installments'),
             "warranty_period" => $this->input->post('warranty_period'),
         );
+
+        $config['upload_path']          = './uploads/';
+        $config['allowed_types']        = 'gif|jpg|png';
+        $config['max_size']             = 102400;
+        $config['max_width']            = 1920;
+        $config['max_height']           = 1080;
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('file')) {
+            $error = array('error' => $this->upload->display_errors());
+        } else {
+            $upload_data = $this->upload->data();
+            $data['image_url'] = $upload_data['full_path'];
+        }
+
 
         if ($id) {
             $result = $this->Product_model->update_table_data($id, $data);

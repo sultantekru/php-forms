@@ -26,21 +26,12 @@ class Product_model extends CI_Model
     public $installments;
     public $warranty_period;
     public $currency;
+    public $image_url;
 
-    public function run()
-    {
-        return "Test için";
-    }
     public function __construct()
     {
         parent::__construct();
         $this->load->database();
-    }
-
-    public function get_last_ten_products()
-    {
-        $query = $this->db->get('products', 10);
-        return $query->result();
     }
 
     public function insert_table_data($data)
@@ -64,13 +55,13 @@ class Product_model extends CI_Model
 
     public function get_product_by_id($id)
     {
-        $this->db->where('id', $id); 
+        $this->db->where('id', $id);
         $query = $this->db->get('products');
 
         if ($query->num_rows() === 1) {
             return $query->row();
         } else {
-            return null; 
+            return null;
         }
     }
 

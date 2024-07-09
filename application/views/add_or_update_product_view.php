@@ -1,4 +1,5 @@
 <?php
+
 defined('BASEPATH') or exit('No direct script access allowed');
 ?>
 <!DOCTYPE html>
@@ -512,7 +513,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				<div class="form-group row">
 					<label for="productImg" class="col-sm-2 col-form-label">Ürün Ana Resmi <p id="description">Ürüne ana resim eklemek için tıklayın. Ürün resim eklerken kare resim girmelisiniz, önerilen boyut 800px genişlik, 800px yükseklik. Ürün resim eklerken maksimum resim boyutu 1MB ve genişlik 768px, yükseklik 1024px olmalıdır.</p></label>
 					<div class="col-sm-4">
-						<img id="image-preview" src="https://th.bing.com/th/id/R.52b37a48fe1da713f095575a61df1c54?rik=afUDSZgaB%2f4qOw&pid=ImgRaw&r=0" class="productImg">
+						<img id="image-preview"  src="<?php echo isset($product) ? $product->image_url : 'https://th.bing.com/th/id/R.52b37a48fe1da713f095575a61df1c54?rik=afUDSZgaB%2f4qOw&pid=ImgRaw&r=0	'; ?>" class="productImg">
 					</div>
 					<div class="btn-danger">
 						<input accept="image/*" type="file" id="file-input" onchange="selectFile()">
