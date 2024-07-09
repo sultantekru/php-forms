@@ -42,6 +42,31 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			var formData = new FormData();
 			<?php echo isset($product) ? "formData.append('id', " . $product->id . ");" : '' ?>
 			formData.append('product_title', document.getElementById('inputProductTitle').value);
+			formData.append('additional_info_title', document.getElementById('inputAdditionalInfo').value);
+			formData.append('additional_info_description', document.getElementById('inputAdditionalDescription').value);
+			formData.append('meta_title', document.getElementById('inputMetaTitle').value);
+			formData.append('meta_keywords', document.getElementById('inputMetaKeywords').value);
+			formData.append('meta_description', document.getElementById('inputMetaDescription').value);
+			formData.append('seo_url', document.getElementById('inputSeo').value);
+			formData.append('product_description', document.getElementById('inputProductDescription').value);
+			formData.append('video_embed_code', document.getElementById('inputVideoEmbed').value);
+			formData.append('product_code', document.getElementById('inputProuductCode').value);
+			formData.append('quantity', document.getElementById('amount').value);
+			formData.append('extra_discount_in_cart', document.getElementById('basket').value);
+			formData.append('tax_rate', document.getElementById('taxRateSelect').value);
+			formData.append('sales_price', document.getElementById('sale').value);
+			formData.append('second_sales_price', document.getElementById('sale-2').value);
+			formData.append('subtract_stock', document.getElementById('stock').value);
+			formData.append('status', document.getElementById('status').value);
+			formData.append('features_section', document.getElementById('property').value);
+			formData.append('new_product_validity_period', document.getElementById('productTime').value);
+			formData.append('sort_order', document.getElementById('sorting').value);
+			formData.append('show_on_homepage', document.getElementById('show').value);
+			formData.append('new_product', document.getElementById('newProduct').value);
+			formData.append('installments', document.getElementById('installment').value);
+			formData.append('warranty_period', document.getElementById('warrantyPeriod').value);
+
+
 			formData.append('file', document.getElementById('file-input').files[0]);
 
 			var xhr = new XMLHttpRequest();
@@ -145,15 +170,6 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			color: black;
 		}
 
-		.dropdown .btn {
-			width: 100%;
-			border: 1px solid #CCCCCC;
-			color: #CCCCCC;
-			display: flex;
-			justify-content: space-between;
-			align-items: center;
-		}
-
 		.section-container {
 			display: flex;
 		}
@@ -180,16 +196,17 @@ defined('BASEPATH') or exit('No direct script access allowed');
 			height: 38px;
 		}
 
+		#sale-2 {
+			width: 85px;
+			height: 38px;
+		}
+
 		.btn-danger {
 			margin-top: 10px;
 		}
 
 		#imgTitle {
 			border: 1px solid black;
-		}
-
-		#img-line {
-			border: 1px dotted;
 		}
 
 		.productImg {
@@ -324,14 +341,14 @@ defined('BASEPATH') or exit('No direct script access allowed');
 						<div class="form-group row">
 							<label for="inputProductDescription" class="col-sm-2 col-form-label">Türkçe Ürün Açıklama</label>
 							<div class="col-sm-10">
-								<textarea value="<?php echo isset($product) ? $product->product_description : ''; ?>" id="inputProductDescription"></textarea>
+								<textarea id="inputProductDescription"><?php echo isset($product) ? $product->product_description : ''; ?></textarea>
 							</div>
 						</div>
 						<hr>
 						<div class="form-group row">
 							<label for="inputVideoEmbed" class="col-sm-2 col-form-label">Türkçe Video Embed Kodu <p id="description">Vimeo - Google Video - Youtbe tarzı video sitelerinin embed kodu.</p></label>
 							<div class="col-sm-10">
-								<textarea value="<?php echo isset($product) ? $product->video_embed_code : ''; ?>" id="inputVideoEmbed"></textarea>
+								<textarea id="inputVideoEmbed"><?php echo isset($product) ? $product->video_embed_code : ''; ?></textarea>
 							</div>
 						</div>
 					</div>
@@ -364,7 +381,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="basket" class="col-sm-2 col-form-label"><span>*</span> Sepette Ekstra İndirim % <p id="description">Ürün sepet ekstra indirimde seçeneklere fiyat girilmiş ise indirim seçenek fiyatlarına da uygulanmaktadır.</p></label>
 					<div class="col-sm-4 section-container">
 						<div class="dropdown">
-							<select class="combobox py-2 px-3 w-100" id="extra_discount_in_cart">
+							<select id="basket" class="combobox py-2 px-3 w-100" id="extra_discount_in_cart">
 								<option>0</option>
 								<option>10</option>
 							</select>
@@ -395,10 +412,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</div>
 				<hr>
 				<div class="form-group row">
-					<label for="sale" class="col-sm-2 col-form-label"><span>*</span> 2.Satış Fiyatı</label>
+					<label for="sale-2" class="col-sm-2 col-form-label"><span>*</span> 2.Satış Fiyatı</label>
 					<div class="col-sm-10">
 						<div class="sale-container">
-							<input value="<?php echo isset($product) ? $product->second_sales_price : ''; ?>" type="text" class="d-inline-block form-control" id="sale"> TL
+							<input value="<?php echo isset($product) ? $product->second_sales_price : ''; ?>" type="text" class="d-inline-block form-control" id="sale-2"> TL
 						</div>
 					</div>
 				</div>
@@ -407,7 +424,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="stock" class="col-sm-2 col-form-label"><span>*</span> Stoktan Düş <p id="description">Ürün satıldıktan sonra ürün miktarı düşülür.</p></label>
 					<div class="col-sm-4">
 						<div class="dropdown">
-							<select class="combobox py-2 px-3 w-100" id="stock">
+							<select id="stock" class="combobox py-2 px-3 w-100" id="stock">
 								<option>Evet</option>
 								<option>Hayır</option>
 							</select>
@@ -416,10 +433,10 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</div>
 				<hr>
 				<div class="form-group row">
-					<label for="state" class="col-sm-2 col-form-label"><span>*</span> Durum<p id="description">Ürünleri aktif ya da pasif edin.</p></label>
+					<label for="status" class="col-sm-2 col-form-label"><span>*</span> Durum<p id="description">Ürünleri aktif ya da pasif edin.</p></label>
 					<div class="col-sm-4">
 						<div class="dropdown">
-							<select class="combobox py-2 px-3 w-100" id="state">
+							<select id="status" class="combobox py-2 px-3 w-100">
 								<option>Evet</option>
 								<option>Hayır</option>
 							</select>
@@ -431,7 +448,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					<label for="property" class="col-sm-2 col-form-label"><span>*</span> Özellik Bölümü<p id="description">Ürünlerin özellik tabını gösterin ya da göstermeyin.</p></label>
 					<div class="col-sm-4">
 						<div class="dropdown">
-							<select class="combobox py-2 px-3 w-100" id="property">
+							<select id="property" class="combobox py-2 px-3 w-100" id="property">
 								<option>Göster</option>
 								<option>Gösterme</option>
 							</select>
@@ -485,9 +502,9 @@ defined('BASEPATH') or exit('No direct script access allowed');
 				</div>
 				<hr>
 				<div class="form-group row">
-					<label for="show" class="col-sm-2 col-form-label"><span>*</span> Garanti Süresi<p id="description">Ürün için verilen ay cinsinden garanti süresi.</p></label>
+					<label for="warrantyPeriod" class="col-sm-2 col-form-label"><span>*</span> Garanti Süresi<p id="description">Ürün için verilen ay cinsinden garanti süresi.</p></label>
 					<div class="col-sm-4">
-						<input value="<?php echo isset($product) ? $product->warranty_period : ''; ?>" type="text" class="form-control" id="show">
+						<input value="<?php echo isset($product) ? $product->warranty_period : ''; ?>" type="text" class="form-control" id="warrantyPeriod">
 					</div>
 				</div>
 			</div>
@@ -504,41 +521,41 @@ defined('BASEPATH') or exit('No direct script access allowed');
 					</div>
 				</div>
 			</div>
-		</div>
-		<div class="tab-pane fade" id="discount" role="tabpanel" aria-labelledby="discount-tab">
-			<div class="form-group">
-				<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Müşteri Grubu</label>
-				<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Öncelik</label>
-				<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Yüzde İndirim Oranı veya İndirimli Fiyatı</label>
-				<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Başlangıç Tarihi</label>
-				<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Bitiş Tarihi</label>
-				<hr>
-			</div>
-			<div class="form-group row align-items-center">
-				<div class="col-sm-2">
-					<select class="combobox py-2 px-3 w-100" id="customer-group">
-						<option>Müşteri</option>
-					</select>
+			<div class="tab-pane fade" id="discount" role="tabpanel" aria-labelledby="discount-tab">
+				<div class="form-group">
+					<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Müşteri Grubu</label>
+					<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Öncelik</label>
+					<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Yüzde İndirim Oranı veya İndirimli Fiyatı</label>
+					<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Başlangıç Tarihi</label>
+					<label for="discountTitle" class="col-sm-2 col-form-label discountTitle">Bitiş Tarihi</label>
+					<hr>
 				</div>
-				<div class="col-sm-2">
-					<input type="text" class="form-control" id="priority">
-				</div>
-				<div class="col-sm-2">
-					<div class="input-group">
-						<input type="text" class="form-control" id="priceTl" placeholder="0.00">
-						<span class="input-group-text">TL</span>
-					</div>
-					<div class="dropdown">
-						<select class="combobox py-2 px-3 w-100" id="price">
-							<option>Fiyat</option>
+				<div class="form-group row align-items-center">
+					<div class="col-sm-2">
+						<select class="combobox py-2 px-3 w-100" id="customer-group">
+							<option>Müşteri</option>
 						</select>
 					</div>
-				</div>
-				<div class="col-sm-2">
-					<input type="text" class="form-control" id="startDate">
-				</div>
-				<div class="col-sm-2">
-					<input type="text" class="form-control" id="endDate">
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="priority">
+					</div>
+					<div class="col-sm-2">
+						<div class="input-group">
+							<input type="text" class="form-control" id="priceTl" placeholder="0.00">
+							<span class="input-group-text">TL</span>
+						</div>
+						<div class="dropdown">
+							<select class="combobox py-2 px-3 w-100" id="price">
+								<option>Fiyat</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="startDate">
+					</div>
+					<div class="col-sm-2">
+						<input type="text" class="form-control" id="endDate">
+					</div>
 				</div>
 			</div>
 		</div>

@@ -62,6 +62,29 @@ class Product extends CI_Controller
 
         $data = array(
             "product_title" => $this->input->post('product_title'),
+            "additional_info_title" => $this->input->post('additional_info_title'),
+            "additional_info_description" => $this->input->post('additional_info_description'),
+            "meta_title" => $this->input->post('meta_title'),
+            "meta_keywords" => $this->input->post('meta_keywords'),
+            "meta_description" => $this->input->post('meta_description'),
+            "seo_url" => $this->input->post('seo_url'),
+            "product_description" => $this->input->post('product_description'),
+            "video_embed_code" => $this->input->post('video_embed_code'),
+            "product_code" => $this->input->post('product_code'),
+            "quantity" => $this->input->post('quantity'),
+            "extra_discount_in_cart" => $this->input->post('extra_discount_in_cart'),
+            "tax_rate" => $this->input->post('tax_rate'),
+            "sales_price" => $this->input->post('sales_price'),
+            "second_sales_price" => $this->input->post('second_sales_price'),
+            "subtract_stock" => $this->input->post('subtract_stock'),
+            "status" => $this->input->post('status'),
+            "features_section" => $this->input->post('features_section'),
+            "new_product_validity_period" => $this->input->post('new_product_validity_period'),
+            "sort_order" => $this->input->post('sort_order'),
+            "show_on_homepage" => $this->input->post('show_on_homepage'),
+            "new_product" => $this->input->post('new_product'),
+            "installments" => $this->input->post('installments'),
+            "warranty_period" => $this->input->post('warranty_period'),
         );
 
         if ($id) {
@@ -69,6 +92,5 @@ class Product extends CI_Controller
         } else {
             $result = $this->Product_model->insert_table_data($data);
         }
-
     }
 }
