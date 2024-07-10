@@ -10,8 +10,6 @@ class Product extends CI_Controller
         parent::__construct();
         $this->load->model('Product_model');
         $this->load->helper(array('form', 'url'));
-        $this->load->library('cors');
-        $this->cors->handle();
     }
 
     public function index()
