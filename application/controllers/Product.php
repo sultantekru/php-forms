@@ -57,6 +57,7 @@ class Product extends CI_Controller
             "video_embed_code" => $this->input->post('video_embed_code'),
             "product_code" => $this->input->post('product_code'),
             "quantity" => $this->input->post('quantity'),
+            "quantity_unit" => $this->input->post('quantity_unit'),
             "extra_discount_in_cart" => $this->input->post('extra_discount_in_cart'),
             "tax_rate" => $this->input->post('tax_rate'),
             "sales_price" => $this->input->post('sales_price'),
@@ -70,6 +71,12 @@ class Product extends CI_Controller
             "new_product" => $this->input->post('new_product'),
             "installments" => $this->input->post('installments'),
             "warranty_period" => $this->input->post('warranty_period'),
+            "customer_group" => $this->input->post('customer_group'),
+            "priority" => $this->input->post('priority'),
+            "discounted_price" => $this->input->post('discounted_price'),
+            "start_date" => $this->input->post('start_date'),
+            "end_date" => $this->input->post('end_date'),
+            "currency" => $this->input->post('currency'),
         );
 
         $config['upload_path']          = './uploads/';
@@ -84,7 +91,7 @@ class Product extends CI_Controller
             $error = array('error' => $this->upload->display_errors());
         } else {
             $upload_data = $this->upload->data();
-            $data['image_url'] = $upload_data['full_path'];
+            $data['image_url'] = "/uploads/" . $upload_data['file_name'];
         }
 
 

@@ -11,22 +11,29 @@ class Product_model extends CI_Model
     public $product_description;
     public $video_embed_code;
     public $product_code;
-    public $quantity;
-    public $extra_discount_in_cart;
-    public $tax_rate;
-    public $sales_price;
-    public $second_sales_price;
+    public $quantity; // number
+    public $quantity_unit;
+    public $extra_discount_in_cart; // number
+    public $tax_rate; // number
+    public $sales_price; // number
+    public $second_sales_price; // number
     public $subtract_stock;
     public $status;
     public $features_section;
-    public $new_product_validity_period;
+    public $new_product_validity_period; // number
     public $sort_order;
-    public $show_on_homepage;
+    public $show_on_homepage; // number
     public $new_product;
     public $installments;
-    public $warranty_period;
+    public $warranty_period; // number
     public $currency;
     public $image_url;
+    public $customer_group;
+    public $priority;
+    public $discounted_price;
+    public $start_date;
+    public $end_date;
+
 
     public function __construct()
     {
